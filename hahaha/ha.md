@@ -12,3 +12,5 @@ hello
 say hi
 and
 cheeese
+and
+smile
