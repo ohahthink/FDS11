@@ -9,4 +9,6 @@ hi
 bye
 hi
 hello
-hi hi hi
+say hi
+and
+cheeeeese
