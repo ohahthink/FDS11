@@ -109,12 +109,32 @@
 
 // 2 이상의 자연수를 입력받아, 그 수가 소수인지 아닌지를 판별하는 함수를 작성하세요.
 
-function prime(num){
-        if(num % 2 === 0){
-            console.log(i);
+// // 정답 :
+// function prime(num){
+//     for(i = 2; i <= num; i++){
+//         if(num % i === 0){
+//             console.log('prime');
+//         }else{
+//             console.log('notPrime')
+//         }
+//     }
+// }
+// prime(6);
+
+// 풀이 : 판별하는 함수 = 불리언값, true인지 false인지 알아내라는 의미
+function isPrime(x) {
+    // return 루프가 있던 없던 함수를 빠져나갑니다
+    // 소수: 1과 자기자신밖에 약수가 없는 수
+    // > 1과 자기자신이 아닌 약수가 하나라도 있으면 소수가 아니다.
+    for (let i = 2; i < x; i++) {
+        if(x % i === 0) {
+            return false
         }
+    }
+    return true
 }
-prime(6);
+
+
 
 // ### 문제 8
 
@@ -144,6 +164,31 @@ prime(6);
 // * * * *
 // * * * * *
 // ```
+
+// 풀이 : 문제 잘보면 별 사이에 공백이 있습니다 !
+// 중첩루프 이용법
+// function print(height) {
+//     for (let i = 0; i < height; i++){
+//         // 한 줄 출력
+//         let stars = ''
+//         for (let j = 0; j < i + 1; j++){
+//         // 별 표 하나를 출력
+//         stars += '* '
+//         }
+//         console.log(stars);
+//     }
+// }
+// print(5);
+
+// repeat을 이용한 방법
+// function print(height) {
+//     for (let i = 0; i < height; i++){
+//         // 한 줄 출력
+//         console.log('*'.repeat(i + 1))
+//     }
+// }
+// print(5);
+
 
 // ### 문제 10
 
@@ -175,6 +220,47 @@ prime(6);
 //    * *
 //     *
 // ```
+
+
+// 풀이 : i가 꼭 커질 필요는 없어요
+
+
+// function print(height) {
+//     for (let i = 0; i < height; i++) {
+//         const n = i + 1;
+//         const line = ' '.repeat(height - n) + '* '.repeat(n)
+//         console.log(line)
+//     }
+//     for (let i = height - 2; i >= 0; i--) {
+//         const n = i + 1;
+//         const line = ' '.repeat(height - n) + '* '.repeat(n)
+//         console.log(line)
+//     }
+// }
+
+// print(3)
+
+
+// 재사용성을 고려한 풀이 : 코드뭉치를 묶어서 재사용하기 위한 단위 = 함수 , 즉 함수로 묶어서 재사용할 수 있습니다
+
+function printLine(height, i) {
+    const n = i + 1;
+    const line = ' '.repeat(height - n) + '* '.repeat(n)
+    console.log(line)
+}
+
+
+function print(height) {
+    for (let i = 0; i < height; i++) {
+        printLine(height, i)
+    }
+    for (let i = height - 2; i >= 0; i--) {
+        printLine(height, i)
+    }
+}
+
+print(3)
+
 
 // ### 문제 11
 
