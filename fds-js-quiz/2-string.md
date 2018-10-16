@@ -9,9 +9,26 @@ insensitiveEqual('hello', 'Hello'); -> true
 insensitiveEqual('hello', 'world'); -> false
 ```
 
+```js
+// 긴 버전
+function insensitiveEqual(str1, str2) {
+  if (str1.toLowerCase() === str2.toLowerCase()) {
+    return true
+  } else {
+    return false
+  }
+}
+```
+
+```js
+// 짧은 버전
+function insensitiveEqual(str1, str2) {
+  return str1.toLowerCase() === str2.toLowerCase()
+}
+```
 ### 문제 2
 
-문자열 `s`와 자연수 `n`을 입력받아, 만약 `s`의 길이가 `n`보다 작으면 `s`의 왼쪽에 공백으로 추가해서 길이가 `n`이 되게 만든 후 반환하고, 아니면 `s`를 그대로 반환하는 함수를 작성해보세요.
+문자열 `s`와 자연수 `n`을 입력받아, 만약 `s`의 길이가 `n`보다 작으면 `s`의 왼쪽에 공백을 추가해서 길이가 `n`이 되게 만든 후 반환하고, 아니면 `s`를 그대로 반환하는 함수를 작성해보세요.
 
 예:
 ```
@@ -19,39 +36,65 @@ leftPad('hello', 8); -> '   hello'
 leftPad('hello', 3); -> 'hello'
 ```
 
+```js
+function leftPad(s, n) {
+  if (s.length < n) {
+    const spaceNum = n - s.length
+    return ' '.repeat(spaceNum) + s
+  } else {
+    return s
+  }
+}
+
+```
+
 ### 문제 3
 
 문자열을 입력받아, 문자열 안에 들어있는 모든 모음(a, e, i, o, u)의 갯수를 반환하는 함수를 작성하세요.
 
+```js
+function count(str) {
+  let num = 0
+  for (let i = 0; i < str.length; i++) { 
+    if (str[i] === 'a' || str[i] === 'e' || str[i] === 'i' || str[i] === 'o' || str[i] === 'u') {
+      num += 1
+    }
+  }
+  return num
+}
+
+count('hello')
+```
+
 ### 문제 4
 
-문자열을 입력받아, 해당 문자열에 포함된 문자의 종류와 갯수를 나타내는 객체를 반환하는 함수를 작성하세요.
-
-
+문자열을 입력받아, 해당 문자열에 포함된 문자의 종류와 개수를 나타내는 객체를 반환하는 함수를 작성하세요.
 
 예:
 ```
 countChar('tomato'); -> {t: 2, o: 2, m: 1, a: 1}
 ```
 
+```js
+function countChar(input) {
+  const obj = {}
+  for (let i = 0; i < input.length; i++) {
+    const char = input[i]
+    // 글자를 본적이 없다면 "글자": 1 을 적어준다.
+    if ( !(char in obj) ) {
+      obj[char] = 1
+    } else {
+      // 글자를 본적이 있다면 개수를 1 증가시켜준다.
+      obj[char]++
+    }
+  }
+  return obj
+}
+```
+
 ### 문제 5
 
 문자열을 입력받아 그 문자열이 회문(palindrome)인지 판별하는 함수를 작성하세요. (회문이란, '토마토', 'never odd or even'과 같이 뒤에서부터 읽어도 똑같이 읽히는 문자열을 말합니다.)
-
-<!-- 문자열도 idnex로 접근 가능합니다, 배열로 바꿀필요없어요 -->
-
-function isPalidrome(str) {
-  for (let i = 0; i < str.length; i++) {
-    if (str[i] !== str[str.length - 1 - i]) {
-      return false;
-    }
-  }
-  return true;
-}
-isPalidrome('토마토마토')
-
-
-
 
 ### 문제 6
 
@@ -61,6 +104,19 @@ isPalidrome('토마토마토')
 ```
 subString('햄버거');
 // 결과: ['햄', '햄버', '햄버거', '버', '버거', '거']
+```
+
+```js
+const isPalindrome = (input) => {
+  for (let i = 0; i <= input.length / 2 - 1; i++) {
+    const left = i;
+    const right = input.length - 1 - i;
+    if (input[left] !== input[right]) {
+      return false
+    }
+  }
+  return true
+}
 ```
 
 ### 문제 7
@@ -73,81 +129,83 @@ removeDuplicates('tomato'); -> 'toma'
 removeDuplicates('bartender'); -> 'bartend'
 ```
 
-function removeDuplicates(str) {
-  let memory = '';
-  for (let i = 0; i < str.length; i++) {
-    if (memory.includes(str[i]) !== true) {
-      memory += str[i];
-    }
-    else{
-      continue;
-    }
-  }
-  console.log(memory)
-}
-removeDuplicates('tomato')
-
 ### 문제 8
 
 이메일 주소를 입력받아, 아이디 부분을 별표(`*`)로 가린 새 문자열을 반환하는 함수를 작성하세요.
 
-<!-- 
-> 노트 = 저장장치고, 노트에 쓰는 사고 = 내가 왜 쓰고있지?
-
-새로 글씨를 쓸 빈칸을 만들어둔다 - 변수
-아직 @을 본적 없다는 사실을 기억해 둔다 - 변수
-입력받은 문자열을 한 글자씩 본다 - for문
-만약에 아직 @을 본적이 없다면 *을 쓴다 -
-아니면 @을 본적이 있다면 위에서 본 글씨를 그대로 쓴다 -
-
-
--->
-
-
 - 루프로 먼저 풀어보세요.
 - `split` 메소드를 이용해서 풀어보세요.
+
+```js
+const removeId = (input) => {
+  let seen = false
+  let memory = ''
+  for (let i = 0; i < input.length; i++) {
+    // 내가 지금 보고 있는 글자가 '@' 이면
+    if (input[i] === '@') {
+      // seen의 값을 true로 바꾼다.
+      seen = true
+    }
+
+    // seen이 true이면
+    if (seen) {
+      // 내가 지금 보고 있는 글자를 그대로 memory에 덧붙인다.
+      memory += input[i]  
+    } else {
+      // 아니면, 별표를 대신 덧붙인다.
+      memory += '*'
+    }
+  }
+  // 변환한 결과를 반환한다.
+  return memory
+}
+
+const removeId2 = (input) => {
+  // '@'을 기준으로 쪼갠 후
+  const splitted = input.split('@')
+  // id 부분과 같은 길이를 갖는 별표 문자열을 만든다.
+  const stars = '*'.repeat(splitted[0].length)
+  // 별표를 @, 도메인 부분과 이어붙인 후 반환한다.
+  return stars + '@' + splitted[1]
+}
+```
 
 ### 문제 9
 
 문자열을 입력받아, 대문자는 소문자로, 소문자는 대문자로 바꾼 결과를 반환하는 함수를 작성하세요.
 
-<!-- 
-값을 입력받는다
-변환한 문자를 담아줄 공간을 만든다
-입력값의 문자가 대문자인지 비교했을때 true이면 소문자로 변환한다
-입력값의 문자가 소문자인지 비교했을때 false이면 대문자로 변환한다
-변환한 문자를 만들어두었던 공간에 추가한다
-변환한 문자를 넣어두었던 공간을 반환한다 
- -->
 ```js
+// 배열을 사용하지 않고, 루프를 사용해서 풀기
 function swapCase(input) {
-    let memory = '';
-    for (let i = 0; i < input.length; i++){
-        if (input[i].toUpperCase() === input[i]){
-            memory += input[i].toLowerCase()
-        }else {
-            memory += input[i].toUpperCase()
-        }
+  let memory = ''
+  for (let i = 0; i < input.length; i++) {
+    if (input[i].toUpperCase() === input[i]) {
+      memory += input[i].toLowerCase()
+    } else {
+      memory += input[i].toUpperCase()
     }
+  }
   return memory
 }
 
-swapCase('ToMaTo');
+swapCase('JavaScript')
 ```
+
+```js
+// 배열 메소드를 사용해서 풀기
+const swapCase = input => Array.from(input)
+  .map(c => c.toUpperCase() === c ? c.toLowerCase() : c.toUpperCase())
+  .join('')
+
+swapCase('JavaScript')
+```
+
 ### 문제 10
 
 문자열을 입력받아, 각 단어의 첫 글자를 대문자로 바꾼 결과를 반환하는 함수를 작성하세요. (문자열에 개행이 없다고 가정합니다.)
 
-<!-- 
-값을 입력받는다
-반환할 저장소를 만든다
-단어 단위로 자른다, 단어는 공백으로 나누어진다
-단어의 첫글자가 대문자인지 비교했을때 false면 
--->
 ```js
-
 // 배열을 사용하지 않고, 루프를 사용해서 풀기
-
 function capitalize(input) {
   let seenBlank = true
   let memory = ''
@@ -170,84 +228,80 @@ function capitalize(input) {
 }
 
 capitalize('i am hungry')
+```
 
-
+```js
 // 배열 메소드를 사용해서 풀기
 const capitalize = input => input.split(' ')
   .map(word => word.slice(0, 1).toUpperCase() + word.slice(1))
   .join(' ')
 
 capitalize('i am hungry')
-
 ```
-
 
 ### 문제 11
 
 문자열을 입력받아, 문자열 안에 들어있는 단어 중 가장 긴 단어를 반환하는 함수를 작성하세요. (문자열에 개행이 없다고 가정합니다.)
 
-
-
 ```js
-//  아이디어 : 한 글자씩 보면서, 지금까지 봤던 단어중에 "제일 긴" "단어"를 기억해둔다.
+// 아이디어: 한 글자씩 보면서, 지금까지 봤던 단어중에 "제일 긴" "단어"를 기억해둔다.
 function longestWord(input) {
   let longest = '' // 지금까지 봤던 단어 중에 제일 긴 단어
-  let current = ''// 내가 지금 보고 있는 단어
-  //한 글자씩 보기
+  let current = '' // 내가 지금 보고 있는 단어
+
+  // 한 글자씩 보기
   for (let i = 0; i < input.length; i++) {
-    //내가 지금 보고 있는 글자가 공백이 아니면
+
+    // 내가 지금 보고 있는 글자가 공백이 아니면
     if (input[i] !== ' ') {
       current += input[i]
-      if (current.length > longest.length) {
+      if (current.length >= longest.length) {
         longest = current
       }
-    }else {
+    } else {
       // 내가 지금 보고 있는 글자가 공백이면
       // current를 처음부터 다시 시작
       current = ''
     }
   }
+
   return longest
 }
 
-longestWord('hello fun javascript')
+longestWord('java haha hehe') // -> 'javascript'
+```
 
-// 배열 메소드를 사용한 경우
+```js
 
+// 배열 메소드 사용한 버전
 function longestWord(input) {
   const splitted = input.split(' ')
   splitted.sort((x, y) => y.length - x.length)
   return splitted[0]
 }
 
-longestWord('javascript hah hehe asdfsefsdfsdf')
-
+longestWord('hello fun javascript') // -> 'javascript'
 ```
-
-
 
 ### 문제 12
 
 문자열 `s`과 자연수 `n`을 입력받아, `s`의 첫 `n`개의 문자만으로 이루어진 새 문자열을 반환하는 함수를 작성하세요.
 
 ```js
+
 function firstLetters(s, n) {
-  //slice사용해도 됩니다
   if (s.length < n) {
     return s
   }
-  // 내가 한 글자씩 보면서 어디까지 봤는지 기억을 하고 있으면서
   let memory = ''
   for (let i = 0; i < s.length; i++) {
     memory += s[i]
-    //내가 지금까지 본 문자의 길이가 n과 같으면 반환한다
     if (memory.length === n) {
       return memory
     }
   }
 }
 
-firstLetters('hello', 8) // > hel
 ```
 
 ### 문제 13
@@ -255,20 +309,17 @@ firstLetters('hello', 8) // > hel
 Camel case의 문자열을 입력받아, snake case로 바꾼 새 문자열을 반환하는 함수를 작성하세요.
 
 ```js
-// 아이디어: 한 글자씩 보면서, 첫 글자가 아닌 대문자를 만났을 경우 바로 앞에 밑줄을 쳐준다.
 function toSnakeCase(input) {
   let memory = ''
   for (let i = 0; i < input.length; i++) {
     // 만약, 첫 글자가 아닌 대문자를 만났을 경우
-    if (i !== 0 && input[i].toUpperCase() === input[i]) {
+    if (i !== 0 && (input[i].toUpperCase() === input[i])) {
       memory += '_'
     }
     memory += input[i].toLowerCase()
   }
   return memory
 }
-
-toSnakeCase('JavaScript')
 ```
 
 ### 문제 14
@@ -287,23 +338,64 @@ split('let,const,var', ',') -> ['let', 'const', 'var']
 ```
 
 ```js
-function split(input, sep) { // 'separator' 구분자
+// 한 글자 짜리 separator만 지원하는 함수
+function split(input, sep) { // 'separator'
   // 현재 보고 있는 단어
   let memory = ''
   let arr = []
   for (let i = 0; i < input.length; i++) {
-    if(input[i] !== sep) {
+    if (input[i] !== sep) {
       memory += input[i]
-    }else {
+    } else {
       arr.push(memory)
       memory = ''
+    }
+  }
+  arr.push(memory)
+  return arr 
+}
+```
+
+```js
+// 길이가 1 이상인 separator에 대해서도 동작하는 split 함수
+// 단순 루프를 사용한 버전
+// 아이디어: 한 글자씩 보면서, separator를 발견하면 그 이전 부분까지의 문자열을 배열에 추가한다.
+function split(input, separator) {
+  let memory = ''
+  // sepIndex: separator 일지도 모르는 부분의 첫 인덱스를 저장하는 변수.
+  // separator가 아닌 것 같은 부분을 보고 있을 때는 null을 저장한다.
+  let sepIndex = null
+  let arr = []
+  for (let i = 0; i < input.length; i++) {
+    memory += input[i]
+    // separator를 보고 있는 중이 아니라면
+    if (sepIndex == null) {
+
+      // separator와 첫글자가 일치하는 경우라면 (separator일지도 모른다!)
+      if (input[i] === separator[0]) {
+        sepIndex = i
+      }
+    }
+
+    // separator일지도 모르는 부분을 보고 있는 중이고, separator과 글자가 일치한다면
+    if (sepIndex != null && input[i] === separator[i - sepIndex]) {
+      // separator의 끝부분까지 모두 일치해서, 지금까지 본 것이 separator라는 결론을 내릴 수 있다면
+      if (i - sepIndex === separator.length - 1) {
+        arr.push(memory.slice(0, memory.length - separator.length))
+        memory = ''
+        sepIndex = null
+      }
+    } else {
+      // 'separator인가?' 하고 보고 있었지만 보다보니 separator와 글자가 일치하지 않는다면
+      sepIndex = null
     }
   }
   arr.push(memory)
   return arr
 }
 
-split('hello,fun,javascript', ',')
+console.log(split('javascript,python,java', ','))
+console.log(split('javascriptAndpythonAndjava', 'And'))
 ```
 
 ### 문제 16

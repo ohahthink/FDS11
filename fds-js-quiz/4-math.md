@@ -74,7 +74,7 @@ function randomColor() {
     const randomIndex = Math.floor(candidate.length * Math.random())
     color += candidate[randomIndex]
   }
-  return color
+  return colora
 }
 ```
 

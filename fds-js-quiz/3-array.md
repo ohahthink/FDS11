@@ -7,32 +7,20 @@
 range(3, 6); -> [3, 4, 5, 6]
 ```
 
-```js
-function range(start, end) {
-    const arr = []
-    for (let i = start; i <= end; i++) {
-        arr.push(i)
-    }
-    return arr
-}
-
-range(3, 6)
-```
-
 ### 문제 2
 
 수 타입의 값으로만 이루어진 배열을 입력받아, 그 값들의 합을 구하는 함수를 작성하세요.
 
 ```js
-function arrAdd(input) {
+function sum(arr) {
   let memory = 0
-  for (let i = 0; i < input.length; i++) {
-    memory += input[i]
+  for (let i = 0; i < arr.length; i++) {
+    memory += arr[i]
   }
   return memory
 }
 
-arrAdd([12, 123, 1])
+sum([1, 2, 3]) // -> 6
 ```
 
 ### 문제 3
@@ -40,19 +28,17 @@ arrAdd([12, 123, 1])
 배열을 입력받아, falsy인 요소가 제거된 새 배열을 반환하는 함수를 작성하세요.
 
 ```js
-// 아이디어 : 하나씩 보면서 truthy인 것만 반환해준다
-// 원본배열을 바꾸지 않는다
-
-function arrFalsy(input) {
+function removeFalsy(arr) {
   const newArr = []
-  for (let i = 0; i < input.length; i++) {
-    if (input[i]) {
-      newArr.push(input[i])
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i]) {
+      newArr.push(arr[i])
     }
   }
   return newArr
 }
-arrFalsy([0, 1, NaN, 35])
+
+removeFalsy([0, 1, NaN, 3]) // -> [1, 3]
 ```
 
 ### 문제 4
@@ -60,18 +46,17 @@ arrFalsy([0, 1, NaN, 35])
 배열을 입력받아, 중복된 요소가 제거된 새 배열을 반환하는 함수를 작성하세요.
 
 ```js
-function removeArr(input) {
+function removeDuplicates(arr) {
   const newArr = []
-  for (let i = 0; i < input.length; i++) {
-    if (newArr.includes(input[i])) {
-    }else {
-      newArr.push(input[i])
+  for (let item of arr) {
+    if (!newArr.includes(item)) {
+      newArr.push(item)
     }
   }
   return newArr
 }
 
-removeArr([3, 0, 'ab', 3, 'abc', 'ab']) //> [3, 0, 'ab', 'abc']
+removeDuplicates([1, 2, 3, 2, 1])
 ```
 
 ### 문제 5
@@ -85,6 +70,26 @@ removeArr([3, 0, 'ab', 3, 'abc', 'ab']) //> [3, 0, 'ab', 'abc']
 addArray([1, 2, 3], [4, 5, 6, 7]) -> [5, 7, 9, 7]
 ```
 
+```js
+function addArray(arr1, arr2) {
+  let longer
+  let shorter
+  if (arr1.length > arr2.length) {
+    longer = arr1.slice()
+    shorter = arr2.slice()
+  } else {
+    longer = arr2.slice()
+    shorter = arr1.slice()
+  }
+  for (let i = 0; i < shorter.length; i++) {
+    longer[i] += shorter[i]
+  }
+  return longer
+ }
+
+ addArray([1, 2, 3], [4, 5, 6, 7])
+```
+
 ### 문제 6
 
 배열을 입력받아, 배열의 요소 중 두 개를 선택하는 조합을 모두 포함하는 배열을 작성하세요.
@@ -94,14 +99,24 @@ addArray([1, 2, 3], [4, 5, 6, 7]) -> [5, 7, 9, 7]
 combination([1, 2, 3]); -> [[1, 2], [1, 3], [2, 3]]
 ```
 
+```js
+function combination(arr) {
+  const newArr = []
+  for (let i = 0; i < arr.length - 1; i++) {
+    for (let j = i + 1; j < arr.length; j++) {
+      newArr.push([arr[i], arr[j]])
+    }
+  }
+  return newArr
+}
+
+combination([1, 2, 3, 4])
+```
+
 ### 문제 7
 
 '금액'과 '동전의 종류가 들어있는 배열'를 입력받아, 최소한의 동전을 사용해서 금액을 맞출 수 있는 방법을 출력하는 함수를 작성하세요.
 (단, 동전의 종류가 들어있는 배열에는 큰 동전부터 순서대로 들어있다고 가정합니다.)
-
-<!-- 만약 현재 보고있는 코인보다 남은 금액이 크거나 같으면
-남은 금액에서 현재 보고 있는 코인을 뺀다
- -->
 
 예:
 ```
@@ -113,6 +128,41 @@ coins(263, [100, 50, 10, 5, 1]);
 1
 1
 1
+```
+
+```js
+function coins(input, coinTypes) {
+  let remain = input
+  let currentIndex = 0
+  while (remain > 0) {
+    if (remain >= coinTypes[currentIndex]) {
+      remain -= coinTypes[currentIndex]
+      console.log(coinTypes[currentIndex])
+    } else {
+      currentIndex++
+    }
+  }
+}
+
+coins(263, [100, 50, 10, 5, 1])
+```
+
+```js
+function coins(input, coinTypes) {
+  // coinTypes를 내림차순 정렬
+  coinTypes.sort((x, y) => y - x)
+  // 남은 액수
+  let remain = input
+  // 현재 내가 보고있는 동전
+  for (let i = 0; i < coinTypes.length; i++) {
+    while (coinTypes[i] <= remain) {
+      remain -= coinTypes[i]
+      console.log(coinTypes[i])
+    }
+  }
+}
+
+coins(263, [50, 100, 10, 5, 1])
 ```
 
 ### 문제 8
